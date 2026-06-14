@@ -1,0 +1,8 @@
+name: short
+output: short_template.yaml
+components:
+  head: head/premrs.yaml
+  dns: dns/short.yaml
+  sniffer: sniffer/premrs.yaml
+  strategy: strategy/short.yaml
+  rules: rules/short.yaml

@@ -1,0 +1,164 @@
+mrsdm: &mrsdm
+  type: http
+  behavior: domain
+  format: mrs
+  interval: 86400
+mrsip: &mrsip
+  type: http
+  behavior: ipcidr
+  format: mrs
+  interval: 86400
+yaml: &yaml
+  type: http
+  behavior: domain
+  interval: 86400
+txt: &txt
+  type: http
+  format: text
+  interval: 86400
+
+rule-providers:
+  # 优先直连
+  fakeipfilter:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/fakeip-filter.mrs"
+    path: ./ruleset/fakeipfilter.mrs 
+  connectable:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/connectivity-check@cn.mrs"
+    path: ./ruleset/connectable.mrs
+  private:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/private.mrs"
+    path: ./ruleset/private.mrs
+  privateip:
+    <<: *mrsip
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/privateip.mrs"
+    path: ./ruleset/privateip.mrs
+  gamecn:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/games-cn.mrs"
+    path: ./ruleset/gamecn.mrs
+  cusdirect:
+    <<: *yaml
+    url: "https://cdn.jsdelivr.net/gh/JesterW365/Custom_Rulesets@main/Generated_Rulesets/mihomo/direct_domain.yaml"
+    path: ./ruleset/cusdirect.yaml
+  trackerlist:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/trackerslist.mrs"
+    path: ./ruleset/trackerlist.mrs
+
+  # 广告拦截
+  adrulestop:
+    <<: *mrsdm
+    url: "https://adrules.top/adrules-mihomo.mrs"
+    path: ./ruleset/adrulestop.mrs
+  antiad:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/ads.mrs"
+    path: ./ruleset/antiad.mrs
+  mobileads:
+    <<: *yaml
+    behavior: domain
+    url: "https://cdn.jsdelivr.net/gh/JesterW365/Custom_Rulesets@main/Generated_Rulesets/mihomo/mobile_ads.yaml"
+    path: ./ruleset/mobileads.yaml
+  rejectip:
+    <<: *txt
+    behavior: classical
+    url: "https://ruleset.skk.moe/Clash/ip/reject.txt"
+    path: ./ruleset/rejectip.txt
+
+# 微软和Bing
+  msbing:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/HenryChiao/MIHOMO_YAMLS@ruleset/meta/domain/microsoft.mrs"
+    path: ./ruleset/msbing.mrs
+# 微软cdn
+  mscdn:
+    <<: *txt
+    behavior: domain
+    url: "https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt"
+    path: ./ruleset/mscdn.txt
+# OneDrive
+  onedrive:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/HenryChiao/MIHOMO_YAMLS@ruleset/meta/domain/onedrive.mrs"
+    path: ./ruleset/onedrive.mrs
+
+# 谷歌
+  google:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/HenryChiao/MIHOMO_YAMLS@ruleset/meta/domain/google.mrs"
+    path: ./ruleset/google.mrs
+# FCM
+  fcm:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/HenryChiao/MIHOMO_YAMLS@ruleset/meta/domain/googlefcm.mrs"
+    path: ./ruleset/fcm.mrs
+# Youtube
+  youtube:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/HenryChiao/MIHOMO_YAMLS@ruleset/meta/domain/youtube.mrs"
+    path: ./ruleset/youtube.mrs
+
+# 外区苹果和iCloud
+  appleall:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs"
+    path: ./ruleset/appleall.mrs
+
+# 国区苹果和iCloud
+  applecn:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple-cn.mrs"
+    path: ./ruleset/applecn.mrs
+
+# 外国Ai服务
+  aiservice:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/ai.mrs"
+    path: ./ruleset/aiservice.mrs
+
+# 国内Ai服务
+  aiservicecn:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ai-cn.mrs"
+    path: ./ruleset/aiservicecn.mrs
+
+# 外国游戏
+  gamesuncn:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/games.mrs"
+    path: ./ruleset/gamesuncn.mrs
+
+# 外国社交媒体
+  fixedmedias1:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-social-media-!cn.mrs"
+    path: ./ruleset/fixedmedias1.mrs
+  fixedmedias2:
+    <<: *mrsdm
+    url: "https://cdn.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-communication.mrs"
+    path: ./ruleset/fixedmedias2.mrs
+
+# TelegramIP
+  telegramip:
+    <<: *mrsip
+    url: "https://cdn.jsdelivr.net/gh/DustinWin/ruleset_geodata@mihomo-ruleset/telegramip.mrs"
+    path: ./ruleset/telegramip.mrs
+
+# 直连域名和IP
+  directdm:
+    <<: *mrsdm
+    url: "https://gh-proxy.org/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/cn.mrs"
+    path: ./ruleset/cndm.mrs
+  directip:
+    <<: *mrsip
+    url: "https://gh-proxy.org/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/cnip.mrs"
+    path: ./ruleset/cnip.mrs
+
+# 代理域名  
+  proxy:
+    <<: *mrsdm
+    url: "https://gh-proxy.org/https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/proxy.mrs"
+    path: ./ruleset/proxy.mrs

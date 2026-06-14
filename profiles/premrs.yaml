@@ -1,0 +1,8 @@
+name: premrs
+output: premrs_template.yaml
+components:
+  head: head/premrs.yaml
+  dns: dns/premrs.yaml
+  sniffer: sniffer/premrs.yaml
+  strategy: strategy/premrs.yaml
+  rules: rules/premrs.yaml

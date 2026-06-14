@@ -1,0 +1,49 @@
+dns:
+  enable: true
+  cache-algorithm: arc
+  ipv6: false
+  prefer-h3: true
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    # 规则集下载域名
+    - "*.jsdelivr.net"
+    - "gh-proxy.*"
+    - "ghproxy.*"
+    - "gh.api.*.*"
+    # 连通性测试
+    - "connectivitycheck.platform.hicloud.com" # 华为
+    - "captive.apple.com" # 苹果  
+    # 各个dns服务器
+    - "dns.alidns.com"
+    - "doh.pub"
+    - "dns.google"
+    - "cloudflare-dns.com"
+    - "dns.adguard.com"
+    # ruleset
+    - "rule-set:fakeipfilter"
+    - "rule-set:private"
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - 8.8.8.8
+  proxy-server-nameserver:
+    - https://223.5.5.5/dns-query
+    - https://doh.pub/dns-query
+  nameserver-policy:
+    "rule-set:gamecn": [223.5.5.5, 119.29.29.29]
+    "rule-set:directdm": [https://223.5.5.5/dns-query, https://doh.pub/dns-query]
+  direct-nameserver-follow-policy: true
+  direct-nameserver:
+    - system
+    - https://223.5.5.5/dns-query
+    - https://doh.pub/dns-query
+  nameserver:
+    - https://8.8.8.8/dns-query#RULES&ecs=223.5.5.0/24
+# host部分
+hosts:
+  mtalk.google.com: [142.250.107.188, 108.177.125.188]

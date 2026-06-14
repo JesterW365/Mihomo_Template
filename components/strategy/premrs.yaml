@@ -1,0 +1,91 @@
+filterHK: &filterHK "^(?=.*(?i)(港|hk|hong|HKG|🇭🇰)).*$"
+filterJP: &filterJP "^(?=.*(?i)(日本|jp|japan|东京|tokyo|osaka|NRT|HND|KIX|CTS|FUK|🇯🇵)).*$"
+filterTW: &filterTW "^(?=.*(?i)(台|tw|taiwan|🇹🇼)).*$"
+filterSG: &filterSG "^(?=.*(?i)(加坡|狮|sg|singapore|SIN|🇸🇬)).*$"
+filterKR: &filterKR "^(?=.*(?i)(韩|kr|korea|首尔|seoul|ICN|🇰🇷)).*$"
+filterUS: &filterUS "^(?=.*(?i)(美|us|unitedstates|united state|americ|洛杉|los |lax|纽约|ny|🇺🇸)).*$"
+filterLOGO: &filterLOGO "^(?=.*(?i)(订阅|剩余|重置|到期|加入|机场|官网|地址|过期|群|邀请|返利|邮箱|xpire|raffic|websi|use|tota|email|e-mail|author)).*$"
+filterETC: &filterETC "^(?!.*(港|hk|hong|HKG|🇭🇰|日本|jp|japan|东京|tokyo|ty|osaka|NRT|HND|KIX|CTS|FUK|🇯🇵|台|tw|taiwan|tp|🇹🇼|加坡|狮|sg|singapore|SIN|🇸🇬|韩|kr|korea|首尔|seoul|ICN|🇰🇷|美|us|unitedstates|united state|americ|洛杉|los |lax|纽约|ny|🇺🇸|订阅|剩余|重置|到期|加入|机场|官网|地址|过期|群|邀请|返利|邮箱|xpire|raffic|websi|use|tota|email|e-mail|author)).*$"
+filterASIA: &filterASIA "^(?=.*(?i)(港|hk|hong|HKG|🇭🇰|日本|jp|japan|东京|tokyo|ty|osaka|NRT|HND|KIX|CTS|FUK|🇯🇵|台|tw|taiwan|tp|🇹🇼|加坡|狮|sg|singapore|SIN|🇸🇬|韩|kr|korea|首尔|seoul|ICN|🇰🇷)).*$"
+filterSPC: &filterSPC "^(?=.*(?i)(港|hk|hong|HKG|🇭🇰|日本|jp|japan|东京|tokyo|ty|osaka|NRT|HND|KIX|CTS|FUK|🇯🇵|台|tw|taiwan|tp|🇹🇼|加坡|狮|sg|singapore|SIN|🇸🇬|韩|kr|korea|首尔|seoul|ICN|🇰🇷|美|us|unitedstates|united state|americ|洛杉|los |lax|纽约|ny|🇺🇸)).*$"
+groupprop: &groupprop
+  type: select
+  lazy: true
+  interval: 300
+  url: "https://www.gstatic.com/generate_204"
+  timeout: 3000
+  max-failed-times: 5
+  include-all-providers: true
+  include-all-proxies: true
+
+proxy-groups:
+  # 默认流量
+  - name: 🌏默认代理
+    type: select
+    proxies:
+      - 自动转移
+      - 🇭🇰香港
+      - 🇯🇵日本
+      - 🇹🇼台湾
+      - 🇸🇬新加坡
+      - 🇰🇷韩国
+      - 🇺🇸美国
+      - 🌐其他
+      - DIRECT
+
+  # 地区分组  
+  - {name: "🇭🇰香港", <<: *groupprop, filter: *filterHK}
+  - {name: "🇯🇵日本", <<: *groupprop, filter: *filterJP}
+  - {name: "🇹🇼台湾", <<: *groupprop, filter: *filterTW}
+  - {name: "🇸🇬新加坡", <<: *groupprop, filter: *filterSG}
+  - {name: "🇰🇷韩国", <<: *groupprop, filter: *filterKR}
+  - {name: "🇺🇸美国", <<: *groupprop, filter: *filterUS}
+  - {name: "🌐其他", <<: *groupprop, filter: *filterETC}
+  - {name: "🚩信息", <<: *groupprop, filter: *filterLOGO}
+
+  # 自动转移
+  - {name: "自动转移", type: select, proxies: ["香港", "日本", "新加坡", "美国"]}
+  # 自动转移-地区分组
+  - {name: "香港", <<: *groupprop, type: url-test, filter: *filterHK, hidden: true}
+  - {name: "日本", <<: *groupprop, type: url-test, filter: *filterJP, hidden: true}
+  - {name: "新加坡", <<: *groupprop, type: url-test, filter: *filterSG, hidden: true}
+  - {name: "美国", <<: *groupprop, type: url-test, filter: *filterUS, hidden: true}
+
+  # 3. 特殊用途筛选
+  # 选择一个较为稳定的节点用以后续
+  - {name: "⚓稳定IP", type: select, proxies: ["🇭🇰香港", "🇯🇵日本", "🇹🇼台湾", "🇸🇬新加坡", "🇰🇷韩国", "🇺🇸美国"], include-all-providers: true, include-all-proxies: true, filter: *filterSPC}
+
+  # 网络游戏专用(亚洲)
+  - {name: "🎮游戏线路", type: select, proxies: ["🇹🇼台湾", "🇭🇰香港", "🇯🇵日本", "🇰🇷韩国", DIRECT], include-all-providers: true, include-all-proxies: true, filter: *filterASIA}
+  
+  # 特殊影视专用
+  - {name: "🎬影视线路", type: select, proxies: [DIRECT, "🌏默认代理"], include-all-providers: true, include-all-proxies: true, filter: *filterASIA}
+
+  # Ai服务专用(日本、台湾、新加坡、美国)
+  - {name: "✨Ai线路", type: select, proxies: ["🇯🇵日本", "🇹🇼台湾", "🇸🇬新加坡", "🇺🇸美国", "🌐其他"]}
+
+  # 4. 各个服务专项
+  # 微软服务
+  - {name: "MS+Bing", type: select, proxies: ["🇭🇰香港", "🇯🇵日本", "🇹🇼台湾", "🇸🇬新加坡", "🇺🇸美国", "🌏默认代理", "🌐其他"]}
+
+  # Onedrive服务，跟随或直连
+  - {name: "OneDrive", type: select, proxies: [DIRECT, "MS+Bing", "🌏默认代理"]}
+    
+  # Google服务(主日本)
+  - {name: "Google", type: select, proxies: ["🇯🇵日本", "🇭🇰香港", "🇸🇬新加坡", "🇺🇸美国", "🇹🇼台湾", "🇰🇷韩国", "🌏默认代理", "🌐其他"]}
+
+  # FCM通知
+  - {name: "FCM通知", type: select, proxies: [DIRECT, "Google"]}
+  
+  # Apple服务(主直连)
+  - {name: "Apple", type: select, proxies: [DIRECT, "🇯🇵日本", "🇭🇰香港", "🇸🇬新加坡", "🇺🇸美国", "🇹🇼台湾", "🇰🇷韩国", "🌏默认代理", "🌐其他"]}
+
+  # Telegram|Twitter|Facebook|TikTok etc.
+  - {name: "外国媒体", type: select, proxies: ["⚓稳定IP", "🌏默认代理"]}
+
+  - {name: "🔎未命中", type: select, proxies: ["🌏默认代理", DIRECT]}
+
+  - {name: "🛑广告拦截", type: select, proxies: [REJECT, PASS]}
+  
+  # 外国quic处理
+  - {name: "国外QUIC", type: select, proxies: [REJECT, PASS]}
