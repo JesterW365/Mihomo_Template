@@ -30,14 +30,11 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - +.msftconnecttest.com
-    - +.msftncsi.com
     - "rule-set:connectable"
     - "rule-set:fakeipfilter"
     - "rule-set:private"
     - "rule-set:trackerlist"
     - "rule-set:cusdirect"
-    - "rule-set:aiservicecn"
     - "rule-set:directdm"
   default-nameserver: *ipdnsCN
   proxy-server-nameserver: *dmdnsCN
@@ -307,8 +304,6 @@ rule-providers:
     path: ./ruleset/proxy.mrs
 
 rules:
-  - DOMAIN-SUFFIX,netloading.net,DIRECT
-  - DOMAIN-SUFFIX,liminalnet.com,🎬影视线路
   - RULE-SET,private,DIRECT
   - RULE-SET,connectable,DIRECT
   - RULE-SET,gamecn,DIRECT
