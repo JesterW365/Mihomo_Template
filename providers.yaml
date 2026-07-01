@@ -76,7 +76,7 @@ rule-providers:
 # 微软cdn
   mscdn:
     <<: *txt
-    behavior: domain
+    behavior: classical
     url: "https://ruleset.skk.moe/Clash/non_ip/microsoft_cdn.txt"
     path: ./ruleset/mscdn.txt
 # OneDrive
